@@ -16,9 +16,11 @@
 </div>
 
 <hr />
-<div class="alert alert-danger">No se encontró nada con el termino ASDFG</div>
+<div class="alert alert-danger" *ngIf="hayError">
+  No se encontró ningún país que coincida con la búsqueda: {{ termino }}
+</div>
 
-<div class="row">
+<div *ngIf="paises.length > 0" class="row">
   <div class="col">
     <table class="table table-hover">
       <thead>
@@ -31,13 +33,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>🎏</td>
-          <td>País inventado</td>
-          <td>1500</td>
+        <tr *ngFor="let pais of paises; let i = index">
+          <td>{{ i + 1 }}</td>
           <td>
-            <a href="#">Ver..</a>
+            <img
+              class="small-flag"
+              [src]="pais.flags.png"
+              [alt]="pais.name.official"
+            />
+          </td>
+          <td>{{ pais.name.official }}</td>
+          <td>{{ pais.population | number }}</td>
+          <td>
+            <a [routerLink]="['/pais', pais.cca2]">Ver..</a>
           </td>
         </tr>
       </tbody>
